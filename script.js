@@ -2,7 +2,7 @@
 // the new page picks it up mid-pass and lets it leave.
 (() => {
   const KEY = 'train';
-  const PASS = 1400;                       // ms for the whole train to go by
+  const PASS = 933;                        // ms for the whole train to go by
   const root = document.documentElement;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
