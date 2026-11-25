@@ -1,0 +1,80 @@
+:root{
+  --paper:#f3f2ec; --ink:#1f1a1a; --white:#fff; --red:#a90f12; --yellow:#e8d774;
+  --nav-h:60px;
+  /* Real Futura where installed (Macs, iPhones); Jost is the closest free match elsewhere */
+  --futura:Futura,"Futura PT",Jost,"Century Gothic",sans-serif;
+}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--futura);overflow-x:hidden}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* ---------- top navigation ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:20;height:var(--nav-h);display:flex;justify-content:center;
+  align-items:center;gap:clamp(18px,5vw,64px);padding:0 16px;
+  background:#2e2a2a url(assets/nav-strip.jpg) center/cover}
+.nav a{position:relative;color:var(--white);text-decoration:none;white-space:nowrap;
+  font-size:clamp(14px,1.4vw,18px);font-weight:500;letter-spacing:.04em;padding:10px 0}
+.nav a::after{content:"";position:absolute;left:-3px;right:-3px;bottom:5px;height:4px;background:var(--yellow);
+  border-radius:60% 40% 55% 45%;transform:scaleX(0) rotate(-.6deg);transform-origin:left;transition:transform .3s ease}
+.nav a:hover::after,.nav a:focus-visible::after,.nav a[aria-current]::after{transform:scaleX(1) rotate(-.6deg)}
+a:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
+
+/* ---------- home ---------- */
+/* Everything is positioned in the painting's own coordinates, so it stays lined up when resized */
+.scene{position:relative;overflow:hidden;height:max(100svh,52vw)}
+.art{--w:max(100vw,112.5svh);--h:calc(var(--w)*.8889);
+  position:absolute;width:var(--w);height:var(--h);left:calc((100vw - var(--w))*.48);
+  top:calc((max(100svh,52vw) - var(--h))*.76)}
+.art img.wall{position:absolute;inset:0;width:100%;height:100%;max-width:none;display:block}
+.buttons{position:absolute;left:13.4%;width:70%;top:57%;display:grid;grid-template-columns:repeat(3,1fr);gap:3%}
+.btn{display:grid;place-items:center;aspect-ratio:1864/520;color:var(--white);text-decoration:none;
+  font-size:clamp(14px,calc(var(--w)*.021),44px);font-weight:500;letter-spacing:.03em;
+  position:relative;transition:transform .25s cubic-bezier(.3,1.6,.5,1);animation:paint .7s ease-out backwards}
+.btn::before{content:"";position:absolute;inset:0;background:url(assets/button.png) center/100% 100%;transition:filter .25s}
+.btn span{position:relative}
+.btn:nth-child(1){animation-delay:.35s}.btn:nth-child(2){animation-delay:.6s}.btn:nth-child(3){animation-delay:.85s}
+.btn:nth-child(2)::before{transform:scaleX(-1)}
+.btn:nth-child(3)::before{transform:rotate(180deg)}
+.btn:hover,.btn:focus-visible{transform:translateY(-5%) rotate(-1.5deg) scale(1.04)}
+.btn:nth-child(even):hover,.btn:nth-child(even):focus-visible{transform:translateY(-5%) rotate(1.5deg) scale(1.04)}
+.btn:hover::before{filter:brightness(1.12) drop-shadow(0 6px 5px rgb(31 26 26/.3))}
+.btn:active{transform:scale(.96);transition-duration:.08s}
+/* from-only, so the resting button is unclipped and hover shadows show */
+@keyframes paint{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+
+/* Portrait screens: wall sits above, buttons stack on the white paper */
+@media (max-aspect-ratio:9/10){
+  .scene{height:max(100svh,calc(var(--top) + 106vw + 270px));
+    --top:clamp(-20vw,calc(100svh - 280px - 106vw),36vw)}
+  .art{--w:130vw;left:-13vw;top:var(--top);font-size:20px}
+  .art::before{content:"";position:absolute;left:0;right:0;bottom:calc(100% - var(--w)*.01 - 1px);height:calc(var(--w)*.29);
+    background:url(assets/home.jpg) 0 calc(var(--w)*-.01)/100% auto;transform:scaleY(-1)}
+  .art img.wall{-webkit-mask:linear-gradient(#000 95%,transparent);mask:linear-gradient(#000 95%,transparent);clip-path:inset(1.12% 0 0)}
+  .buttons{top:calc(100% - 4vw);left:48.4%;width:225px;margin-left:-112px;grid-template-columns:1fr;gap:12px}
+  .btn{font-size:21px}
+}
+
+/* ---------- inner pages ---------- */
+.page{min-height:100svh;max-width:1100px;margin:0 auto;padding:calc(var(--nav-h) + 8vh) max(24px,5vw) 10vh}
+.page h1{margin:0 0 .4em;font-size:clamp(40px,7vw,88px);font-weight:500;line-height:1.05;text-wrap:balance}
+.page p{margin:0;font-size:20px;line-height:1.5;max-width:60ch}
+
+/* ---------- page-to-page subway train ---------- */
+/* The train fills everything below the menu bar, so the page can swap behind it */
+.track{position:fixed;z-index:15;inset:calc(var(--nav-h) - 4px) 0 0;overflow:hidden;visibility:hidden}
+.track.running{visibility:visible}
+.train{position:absolute;top:0;left:0;height:calc(100% + 4px);display:flex;will-change:transform;animation:rumble .16s linear infinite alternate}
+.train img{display:block;flex:none;height:100%;width:auto;max-width:none;margin-left:-1px}
+@keyframes rumble{from{translate:0 -3px}to{translate:0 0}}
+.arriving main{visibility:hidden}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* ---------- all caps lettering ---------- */
+.nav a,.btn{text-transform:uppercase}
+.nav a,.btn{letter-spacing:.06em}
+@media (max-width:400px){.nav{gap:14px;padding:0 10px}.nav a{font-size:13px;letter-spacing:.02em}}
+@media (max-width:340px){.nav{gap:10px}.nav a{font-size:12px;letter-spacing:0}}

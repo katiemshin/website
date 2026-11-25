@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Katherine Shin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="preload" as="image" href="assets/subway-front.webp">
+<link rel="preload" as="image" href="assets/subway-middle.webp">
+<link rel="preload" as="image" href="assets/subway-back.webp">
+<script>
+  // Hide the new page until the train is drawn in front of it
+  try { if (sessionStorage.getItem('train') && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('arriving'); } catch {}
+</script>
+</head>
+<body>
+<nav class="nav" aria-label="Main">
+  <a data-page href="index.html" aria-current="page">Home</a>
+  <a data-page href="about.html">About Me</a>
+  <a data-page href="contact.html">Contact</a>
+  <a data-page href="projects.html">Projects</a>
+</nav>
+<main class="scene">
+  <h1 class="sr-only">Hi, I’m Katherine Shin</h1>
+  <div class="art">
+    <img class="wall" src="assets/home.jpg" alt="">
+    <div class="buttons">
+      <a class="btn" data-page href="about.html"><span>About Me</span></a>
+      <a class="btn" data-page href="contact.html"><span>Contact</span></a>
+      <a class="btn" data-page href="projects.html"><span>Projects</span></a>
+    </div>
+  </div>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
